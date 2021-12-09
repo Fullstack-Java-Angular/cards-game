@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 import java.util.function.BiConsumer;
 import java.util.function.BiPredicate;
 import java.util.function.Predicate;
@@ -22,6 +23,7 @@ public class App {
         cards1.add(new Spell("Spell 2", "description 2"));
         cards1.add(new Spell("Spell 3", "description 3"));
 
+
         ArrayList<Card> cards2 = (ArrayList<Card>)cards1.clone();
 
         Predicate<Card> monsterType = card -> (card instanceof Monster);
@@ -38,7 +40,15 @@ public class App {
             }
         };
 
-        BiConsumer<Card, Card> printVersus = (c1, c2) -> System.out.println(c1 + " (vs) " + c2);
+        BiConsumer<Card, Card> printVersus = (c1, c2) -> {
+            try {
+                TimeUnit.MILLISECONDS.sleep(1500);
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            System.out.println(c1 + " (vs) " + c2);
+        };
 
         Player p1 = new Player("John", cards1).shuffleCards();
         Player p2 = new Player("Mary", cards2).shuffleCards();
@@ -103,6 +113,6 @@ public class App {
             }
         }
 
-       System.out.println( p1.compareTo(p2) > 0 ? "The winner is : " + p1 : (p1.compareTo(p2) < 0 ? "The winner is : " + p2 : "ta3adol" )) ;
+       System.out.println( p1.compareTo(p2) > 0 ? "The winner is : " + p1 : (p1.compareTo(p2) < 0 ? "The winner is : " + p2 : "Draw" )) ;
     }
 }
